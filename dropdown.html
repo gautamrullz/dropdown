@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+	<style>
+		.optionDropDown optgroup{
+			font-size: 16px;
+			font-weight: bold;
+		}
+		.optionDropDown optgroup option{
+			font-size: 14px;
+		}
+		
+		@supports (-webkit-touch-callout: none) {
+		  .optionDropDown optgroup{
+			font-size: 16px;
+			font-weight: bold;
+		}
+		.optionDropDown optgroup option{
+			font-size: 14px;
+		}
+		}
+	</style>
+</head>
+
+<body ng-app="myApp" ng-controller="demoController">
+    <script>
+        angular.module("myApp", []).controller('demoController', ['$scope', function ($scope) {
+            const data = {
+                "categories": {
+                    "arrears___financial_difficulties": "Arrears / Financial difficulties",
+                    "changing_payment_date": "Changing payment date",
+                    "copy_documents": "Request copy documents",
+                    "overpayments": "Overpayments",
+                    "third_party_authority": "Third party authority",
+                    "other": "Other",
+                    "help_setting_up_my_new_direct_debit_instruction_online": "Help setting up my new Direct Debit instruction online",
+                    "restart_of_cancelled_direct_debit": "Restart of cancelled Direct Debit",
+                    "questions_about_financial_difficulties_or_arrears__missed_payment": "Questions about financial difficulties or arrears::Missed payment",
+                    "general_queries__change_of_name": "General Queries::Change of name",
+                    "general_queries__change_dd_detail": "General Queries::Change DD detail",
+                    "general_queries__change_address": "General Queries::Change address",
+                    "general_queries__payment_date_change": "General Queries::Payment date change",
+                    "general_queries__linking_agreements": "General Queries::Linking agreements",
+                    "general_queries__new_loans_query_": "General Queries::New Loans query ",
+                    "general_queries__top_up_loans": "General Queries::Top up loans",
+                    "general_queries__settlement": "General Queries::Settlement",
+                    "generalqueries__request_docs": "Request Docs",
+                    "generalqueries__third_party_authority": "Third Party authority",
+                    "generalqueries__missed_payment": "Missed Payment"
+                }
+            }
+            var rawCategories = data.categories;
+
+            $scope.categories = []
+            $scope.newTicket = {}
+            var categoryList = [];
+            var subCategoryList = [];
+
+            for (var property in rawCategories) {
+                if (rawCategories.hasOwnProperty(property) && property !== 'restart_of_cancelled_direct_debit') {
+                    let subcatogery = property.split("__");
+
+                    if (subcatogery[0] == "generalqueries") {
+                        subCategoryList.push({
+                            value: property,
+                            display: rawCategories[property],
+                            type: 'General Queries'
+                        });
+                    } else {
+                        categoryList.push({
+                            value: property,
+                            display: rawCategories[property],
+                            type: 'Financial Difficulties'
+                        });
+                    }
+                }
+            }
+            $scope.categories = subCategoryList.concat(categoryList);
+            console.log($scope.category);
+            console.log(subCategoryList);
+
+
+            $scope.handleChange = function () {
+                $scope.newTicket = {
+                    agreementNum: '123456789',
+                    categoryName: $scope.selectedCategory,
+                    text: 'Text'
+                };
+                var newTicket = $scope.newTicket;
+                newTicket.categoryName = newTicket.categoryName.value;
+                console.log(newTicket);
+            }
+
+        }])
+
+    </script>
+    <div><select id="myMessages_newTicket_category_select" class="form-control optionDropDown" ng-model="newTicket.categoryName"
+            name="category" required ng-options="category.display group by category.type for category in categories">
+            <option value="">---- Select a category ----</option>
+            <!-- <option ng-repeat="category in category" value="{{category.value}}">{{category.display}}</option> -->
+        </select></div>
+    <div class="form-control-icon-wrapper">
+        <select id="myMessages_newTicket_category_select" class="form-control" ng-model="oldTicket.categoryName"
+            name="category" required>
+            <option value="">---- Select a category ----</option>
+            <option ng-repeat="category in categories" value="{{category.value}}">{{category.display}}</option>
+        </select>
+        <i class="icon"></i>
+    </div>
+    <div class="form-control-icon-wrapper">
+        <select id="myMessages_newTicket_category_select" class="form-control optionDropDown" ng-model="selectedCategory"
+            ng-change="handleChange()" name="category" required
+            ng-options="category.display group by category.type for category in categories">
+            <option value="">---- Select a category ----</option>
+            <!--                            <option ng-repeat="category in categories" value="{{category.value}}">{{category.display}}</option>-->
+        </select>
+        <i class="icon"></i>
+    </div>
+</body>
+
+</html>
