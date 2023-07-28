@@ -82,97 +82,97 @@ font-weight:normal;
         "$scope","$document",
         function ($scope,$document) {
 	
-			const data = {
-				categories: {
-					"restart_of_cancelled_direct_debit": "Restart of cancelled Direct Debit",
-					"generalqueries__change_of_name": "Change of name",
-					"generalqueries__change_dd_detail": "Change DD detail",
-					"generalqueries__change_address": "Change address",
-					"generalqueries__payment_date_change": "Payment date change",
-					"generalqueries__linking_agreements": "Linking agreements",
-					"generalqueries__new_loans_query_": "New Loans query ",
-					"generalqueries__top_up_loans": "Top up loans",
-					"generalqueries__settlement": "Settlement",
-					"generalqueries__request_docs": "Request Docs",
-					"generalqueries__third_party_authority": "Third Party authority",
-					"generalqueries__other_general_query": "Other General query",
-					"missed_payment": "Missed Payment",
-					"payment_arrangement": "Payment Arrangement",
-					"payment_hold": "Payment Hold",
-					"can’t_make_payment": "Can't Make Payment",
-					"other_financial_query": "Other Financial query"
-					},
-				  };
-				  var rawCategories = data.categories;
+	const data = {
+		categories: {
+			"restart_of_cancelled_direct_debit": "Restart of cancelled Direct Debit",
+			"generalqueries__change_of_name": "Change of name",
+			"generalqueries__change_dd_detail": "Change DD detail",
+			"generalqueries__change_address": "Change address",
+			"generalqueries__payment_date_change": "Payment date change",
+			"generalqueries__linking_agreements": "Linking agreements",
+			"generalqueries__new_loans_query_": "New Loans query ",
+			"generalqueries__top_up_loans": "Top up loans",
+			"generalqueries__settlement": "Settlement",
+			"generalqueries__request_docs": "Request Docs",
+			"generalqueries__third_party_authority": "Third Party authority",
+			"generalqueries__other_general_query": "Other General query",
+			"missed_payment": "Missed Payment",
+			"payment_arrangement": "Payment Arrangement",
+			"payment_hold": "Payment Hold",
+			"can’t_make_payment": "Can't Make Payment",
+			"other_financial_query": "Other Financial query"
+			},
+		  };
+		  var rawCategories = data.categories;
 
-				  $scope.categories = [];
-				  $scope.newTicket = {};
-				  var categoryList = [];
-				  var subCategoryList = [];
-				  $scope.try =[];
+		  $scope.categories = [];
+		  $scope.newTicket = {};
+		  var categoryList = [];
+		  var subCategoryList = [];
+		  $scope.try =[];
 
-				  for (var property in rawCategories) {
-					if (
-					  rawCategories.hasOwnProperty(property) &&
-					  property !== "restart_of_cancelled_direct_debit"
-					) {
-					  let subcatogery = property.split("__");
+		  for (var property in rawCategories) {
+			if (
+			  rawCategories.hasOwnProperty(property) &&
+			  property !== "restart_of_cancelled_direct_debit"
+			) {
+			  let subcatogery = property.split("__");
 
-					  if (subcatogery[0] == "generalqueries") {
-						subCategoryList.push({
-						  value: property,
-						  display: rawCategories[property],
-						  type: "General Queries",
-						});
-					  } else {
-						categoryList.push({
-						  value: property,
-						  display: rawCategories[property],
-						  type: "Financial Difficulties",
-						});
-					  }
-					}
-				  }
-				  $scope.categories = subCategoryList.concat(categoryList);
-				  $scope.try= [subCategoryList,categoryList];
-				  console.log($scope.try);
-				  console.log($scope.category);
-				  console.log(subCategoryList);
-
-				  $scope.handleChange = function () {
-					$scope.newTicket = {
-					  agreementNum: "123456789",
-					  categoryName: $scope.selectedCategory,
-					  text: "Text",
-					};
-					var newTicket = $scope.newTicket;
-					newTicket.categoryName = newTicket.categoryName.value;
-					console.log(newTicket);
-				  };
-				  
-					$scope.selectedItem = '';
-					$scope.dropDownDisplay = '';
-					$scope.showDropdown = false;
-
-					$scope.toggleDropdown = function() {
-					  $scope.showDropdown = !$scope.showDropdown;
-					  console.log($scope.showDropdown);
-					};
-
-					$scope.selectItem = function(item,display) {
-					  $scope.selectedItem = item;
-					  $scope.dropDownDisplay = display
-					  $scope.showDropdown = false;
-					};
-				
-				$document.on('click', function(event) {
-			  if (!$scope.showDropdown || angular.element(event.target).hasClass('custom-dropdown-selected')) {
-				return;
+			  if (subcatogery[0] == "generalqueries") {
+				subCategoryList.push({
+				  value: property,
+				  display: rawCategories[property],
+				  type: "General Queries",
+				});
+			  } else {
+				categoryList.push({
+				  value: property,
+				  display: rawCategories[property],
+				  type: "Financial Difficulties",
+				});
 			  }
-			  $scope.$apply(function() {
-				$scope.showDropdown = false;
-			  });
-			});
+			}
+		  }
+		  $scope.categories = subCategoryList.concat(categoryList);
+		  $scope.try= [subCategoryList,categoryList];
+		  console.log($scope.try);
+		  console.log($scope.category);
+		  console.log(subCategoryList);
+
+		  $scope.handleChange = function () {
+			$scope.newTicket = {
+			  agreementNum: "123456789",
+			  categoryName: $scope.selectedCategory,
+			  text: "Text",
+			};
+			var newTicket = $scope.newTicket;
+			newTicket.categoryName = newTicket.categoryName.value;
+			console.log(newTicket);
+		  };
+		  
+			$scope.selectedItem = '';
+			$scope.dropDownDisplay = '';
+			$scope.showDropdown = false;
+
+			$scope.toggleDropdown = function() {
+			  $scope.showDropdown = !$scope.showDropdown;
+			  console.log($scope.showDropdown);
+			};
+
+			$scope.selectItem = function(item,display) {
+			  $scope.selectedItem = item;
+			  $scope.dropDownDisplay = display
+			  $scope.showDropdown = false;
+			};
+		
+		$document.on('click', function(event) {
+	  if (!$scope.showDropdown || angular.element(event.target).hasClass('custom-dropdown-selected')) {
+		return;
+	  }
+	  $scope.$apply(function() {
+		$scope.showDropdown = false;
+	  });
+	});
         },
 		
 		
@@ -210,18 +210,17 @@ font-weight:normal;
 	  </ul>
 	</div>
 	<div>
-	
-      <select
-        id="myMessages_newTicket_category_select"
-        class="form-control optionDropDown custom-dropdown"
-        ng-model="newTicket.categoryName"
-        name="category"
-        required
-        ng-options="category.display group by category.type for category in categories"
-      >
-        <option value="">---- Select a category ----</option>
-        <!-- <option ng-repeat="category in category" value="{{category.value}}">{{category.display}}</option> -->
-      </select>
-    </div>
+	      <select
+		id="myMessages_newTicket_category_select"
+		class="form-control optionDropDown custom-dropdown"
+		ng-model="newTicket.categoryName"
+		name="category"
+		required
+		ng-options="category.display group by category.type for category in categories"
+	      >
+		<option value="">---- Select a category ----</option>
+		<!-- <option ng-repeat="category in category" value="{{category.value}}">{{category.display}}</option> -->
+	      </select>
+   	</div>
   </body>
 </html>
