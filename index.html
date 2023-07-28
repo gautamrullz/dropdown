@@ -7,39 +7,60 @@
     <title>Document</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
     <style>
-      
-      /* .optionDropDown optgroup {
+      select.custom-dropdown {
+  -webkit-appearance: none; /* Remove default arrow */
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent; /* Optional, to make background transparent */
+  border: 2px solid #ccc; /* Add custom border */
+  padding: 8px 15px; /* Customize padding */
+  border-radius: 4px; /* Add custom border-radius */
+  font-size: 16px; /* Customize font-size */
+  color: #555; /* Customize text color */
+}
+
+select.custom-dropdown:after {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust the position based on your custom arrow */
+  transform: translateY(-50%);
+  pointer-events: none; /* Ensure the arrow doesn't interfere with the select */
+}
+
+select.custom-dropdown:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+}
+select.custom-dropdown optgroup {
+	font:size:30px !important;
+	font-weight: bolder !important;
+  
+}
+select.custom-dropdown option {
+	font:size:20px !important;
+}
+
+select.custom-dropdown option:hover {
+ 
+}
+
+select.custom-dropdown option:checked {
+
+}
+	@media screen and (max-width: 768px) {
+
+optgroup{
         -webkit-appearance: none !important;
         -moz-appearance: none !important;
         appearance: none !important;
         font-size: 24px !important;
         font-weight: bold !important;
         color: red;
-        
-      } */
-      /* .optionDropDown optgroup option {
-        -webkit-appearance: none !important;
-        -moz-appearance: none !important;
-        appearance: none !important;
-        font-size: 14px !important;
-        color: green;
-      } */
-
-      @media screen and (max-width: 768px) {
-        .optionDropDown{
-          -webkit-appearance: none !important;
-        -moz-appearance: none !important;
-        appearance: none !important;
-        }
-        optgroup{
-          -webkit-appearance: none !important;
-          -moz-appearance: none !important;
-          appearance: none !important;
-          font-size: 24px !important;
-          font-weight: bold !important;
-          color: red;
-        }
       }
+  
+}
+      
     </style>
   </head>
 
