@@ -7,58 +7,70 @@
     <title>Document</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
     <style>
-      select.custom-dropdown {
-  -webkit-appearance: none; /* Remove default arrow */
-  -moz-appearance: none;
-  appearance: none;
-  background-color: transparent; /* Optional, to make background transparent */
-  border: 2px solid #ccc; /* Add custom border */
-  padding: 8px 15px; /* Customize padding */
-  border-radius: 4px; /* Add custom border-radius */
-  font-size: 16px; /* Customize font-size */
-  color: #555; /* Customize text color */
+
+.custom-dropdown-container {
+  position: relative;
 }
 
-select.custom-dropdown:after {
+/* Styles for the selected item */
+.custom-dropdown-selected {
+  display: inline-block;
+  border: 2px solid #ccc;
+  background-color: #fff;
+  color: #555;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+}
+
+.custom-dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0px;
+  padding: 0;
+  list-style: none;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+.custom-dropdown-list ul {
+font-weight:bold;
+	padding: 3px 10px;
+    list-style-type: none;
+}
+
+.custom-dropdown-list li {
+font-weight:normal;
+  padding: 3px 10px;
+  font-size: 16px;
+  color: #555;
+  cursor: pointer;
+  list-style-type: none;
+}
+
+.custom-dropdown-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.custom-dropdown-list li.selected {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.arrow {
   position: absolute;
   top: 50%;
-  right: 10px; /* Adjust the position based on your custom arrow */
+  right: 10px;
   transform: translateY(-50%);
-  pointer-events: none; /* Ensure the arrow doesn't interfere with the select */
-}
-
-select.custom-dropdown:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
-}
-select.custom-dropdown optgroup {
-	font:size:30px !important;
-	font-weight: bolder !important;
-  
-}
-select.custom-dropdown option {
-	font:size:20px !important;
-}
-
-select.custom-dropdown option:hover {
- 
-}
-
-select.custom-dropdown option:checked {
-
-}
-	@media screen and (max-width: 768px) {
-
-optgroup{
-        -webkit-appearance: none !important;
-        -moz-appearance: none !important;
-        appearance: none !important;
-        font-size: 24px !important;
-        font-weight: bold !important;
-        color: red;
-      }
-  
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #555;
 }
       
     </style>
@@ -67,89 +79,138 @@ optgroup{
   <body ng-app="myApp" ng-controller="demoController">
     <script>
       angular.module("myApp", []).controller("demoController", [
-        "$scope",
-        function ($scope) {
-          const data = {
-            categories: {
-              arrears___financial_difficulties:
-                "Arrears / Financial difficulties",
-              changing_payment_date: "Changing payment date",
-              copy_documents: "Request copy documents",
-              overpayments: "Overpayments",
-              third_party_authority: "Third party authority",
-              other: "Other",
-              help_setting_up_my_new_direct_debit_instruction_online:
-                "Help setting up my new Direct Debit instruction online",
-              restart_of_cancelled_direct_debit:
-                "Restart of cancelled Direct Debit",
-              questions_about_financial_difficulties_or_arrears__missed_payment:
-                "Questions about financial difficulties or arrears::Missed payment",
-              general_queries__change_of_name:
-                "General Queries::Change of name",
-              general_queries__change_dd_detail:
-                "General Queries::Change DD detail",
-              general_queries__change_address:
-                "General Queries::Change address",
-              general_queries__payment_date_change:
-                "General Queries::Payment date change",
-              general_queries__linking_agreements:
-                "General Queries::Linking agreements",
-              general_queries__new_loans_query_:
-                "General Queries::New Loans query ",
-              general_queries__top_up_loans: "General Queries::Top up loans",
-              general_queries__settlement: "General Queries::Settlement",
-              generalqueries__request_docs: "Request Docs",
-              generalqueries__third_party_authority: "Third Party authority",
-              generalqueries__missed_payment: "Missed Payment",
-            },
-          };
-          var rawCategories = data.categories;
+        "$scope","$document",
+        function ($scope,$document) {
+	
+			const data = {
+				categories: {
+					"restart_of_cancelled_direct_debit": "Restart of cancelled Direct Debit",
+					"generalqueries__change_of_name": "Change of name",
+					"generalqueries__change_dd_detail": "Change DD detail",
+					"generalqueries__change_address": "Change address",
+					"generalqueries__payment_date_change": "Payment date change",
+					"generalqueries__linking_agreements": "Linking agreements",
+					"generalqueries__new_loans_query_": "New Loans query ",
+					"generalqueries__top_up_loans": "Top up loans",
+					"generalqueries__settlement": "Settlement",
+					"generalqueries__request_docs": "Request Docs",
+					"generalqueries__third_party_authority": "Third Party authority",
+					"generalqueries__other_general_query": "Other General query",
+					"missed_payment": "Missed Payment",
+					"payment_arrangement": "Payment Arrangement",
+					"payment_hold": "Payment Hold",
+					"can’t_make_payment": "Can't Make Payment",
+					"other_financial_query": "Other Financial query"
+					},
+				  };
+				  var rawCategories = data.categories;
 
-          $scope.categories = [];
-          $scope.newTicket = {};
-          var categoryList = [];
-          var subCategoryList = [];
+				  $scope.categories = [];
+				  $scope.newTicket = {};
+				  var categoryList = [];
+				  var subCategoryList = [];
+				  $scope.try =[];
 
-          for (var property in rawCategories) {
-            if (
-              rawCategories.hasOwnProperty(property) &&
-              property !== "restart_of_cancelled_direct_debit"
-            ) {
-              let subcatogery = property.split("__");
+				  for (var property in rawCategories) {
+					if (
+					  rawCategories.hasOwnProperty(property) &&
+					  property !== "restart_of_cancelled_direct_debit"
+					) {
+					  let subcatogery = property.split("__");
 
-              if (subcatogery[0] == "generalqueries") {
-                subCategoryList.push({
-                  value: property,
-                  display: rawCategories[property],
-                  type: "General Queries",
-                });
-              } else {
-                categoryList.push({
-                  value: property,
-                  display: rawCategories[property],
-                  type: "Financial Difficulties",
-                });
-              }
-            }
-          }
-          $scope.categories = subCategoryList.concat(categoryList);
-          console.log($scope.category);
-          console.log(subCategoryList);
+					  if (subcatogery[0] == "generalqueries") {
+						subCategoryList.push({
+						  value: property,
+						  display: rawCategories[property],
+						  type: "General Queries",
+						});
+					  } else {
+						categoryList.push({
+						  value: property,
+						  display: rawCategories[property],
+						  type: "Financial Difficulties",
+						});
+					  }
+					}
+				  }
+				  $scope.categories = subCategoryList.concat(categoryList);
+				  $scope.try= [subCategoryList,categoryList];
+				  console.log($scope.try);
+				  console.log($scope.category);
+				  console.log(subCategoryList);
 
-          $scope.handleChange = function () {
-            $scope.newTicket = {
-              agreementNum: "123456789",
-              categoryName: $scope.selectedCategory,
-              text: "Text",
-            };
-            var newTicket = $scope.newTicket;
-            newTicket.categoryName = newTicket.categoryName.value;
-            console.log(newTicket);
-          };
+				  $scope.handleChange = function () {
+					$scope.newTicket = {
+					  agreementNum: "123456789",
+					  categoryName: $scope.selectedCategory,
+					  text: "Text",
+					};
+					var newTicket = $scope.newTicket;
+					newTicket.categoryName = newTicket.categoryName.value;
+					console.log(newTicket);
+				  };
+				  
+					$scope.selectedItem = '';
+					$scope.dropDownDisplay = '';
+					$scope.showDropdown = false;
+
+					$scope.toggleDropdown = function() {
+					  $scope.showDropdown = !$scope.showDropdown;
+					  console.log($scope.showDropdown);
+					};
+
+					$scope.selectItem = function(item,display) {
+					  $scope.selectedItem = item;
+					  $scope.dropDownDisplay = display
+					  $scope.showDropdown = false;
+					};
+				
+				$document.on('click', function(event) {
+			  if (!$scope.showDropdown || angular.element(event.target).hasClass('custom-dropdown-selected')) {
+				return;
+			  }
+			  $scope.$apply(function() {
+				$scope.showDropdown = false;
+			  });
+			});
         },
+		
+		
       ]);
     </script>
-    <div>
+    
+    <div class="form-control-icon-wrapper">
+      <select
+        id="myMessages_newTicket_category_select"
+        class="form-control optionDropDown"
+        ng-model="selectedCategory"
+        ng-change="handleChange()"
+        name="category"
+        required
+        ng-options="category.display group by category.type for category in categories"
+      >
+        <option value="">---- Select a category ----</option>
+        <!--<option ng-repeat="category in categories" value="{{category.value}}">{{category.display}}</option>-->
+      </select>
+      <i class="icon"></i>
+    </div>
+	
+	<div class="custom-dropdown-container" style="width:90%">
+	  <div id="select" class="custom-dropdown-selected" ng-click="toggleDropdown()" style="width:100%">
+		{{ dropDownDisplay || '---- Select a category ----'}} <span ng-click="toggleDropdown()" for="select" class="arrow"></span>
+	  </div>
+	  <!--<ul class="custom-dropdown-list" ng-show="showDropdown">
+		<li ng-repeat="item in categories" ng-click="selectItem(item.value)">{{ item.display }}</li>
+	  </ul>-->
+	  <ul class="custom-dropdown-list" ng-show="showDropdown" style="width:100%"> 
+			<li ng-class="{ 'selected': '---- Select a category ----' === selectedItem }" ng-click="selectItem('---- Select a category ----','---- Select a category ----')">---- Select a category ----</li>
+			<ul ng-repeat="array1 in try">{{array1[0].type}}
+				<li ng-class="{ 'selected': arraylist.value === selectedItem }" ng-repeat="arraylist in array1" ng-click="selectItem(arraylist.value,arraylist.display)" > {{arraylist.display}}</li>
+			</ul>
+	  </ul>
+	</div>
+	<div>
+	
       <select
         id="myMessages_newTicket_category_select"
         class="form-control optionDropDown custom-dropdown"
@@ -161,36 +222,6 @@ optgroup{
         <option value="">---- Select a category ----</option>
         <!-- <option ng-repeat="category in category" value="{{category.value}}">{{category.display}}</option> -->
       </select>
-    </div>
-    <div class="form-control-icon-wrapper">
-      <select
-        id="myMessages_newTicket_category_select"
-        class="form-control"
-        ng-model="oldTicket.categoryName"
-        name="category"
-        required
-      >
-        <option value="">---- Select a category ----</option>
-        <option ng-repeat="category in categories" value="{{category.value}}">
-          {{category.display}}
-        </option>
-      </select>
-      <i class="icon"></i>
-    </div>
-    <div class="form-control-icon-wrapper">
-      <select
-        id="myMessages_newTicket_category_select"
-        class="form-control optionDropDown custom-dropdown"
-        ng-model="selectedCategory"
-        ng-change="handleChange()"
-        name="category"
-        required
-        ng-options="category.display group by category.type for category in categories"
-      >
-        <option value="">---- Select a category ----</option>
-        <!--                            <option ng-repeat="category in categories" value="{{category.value}}">{{category.display}}</option>-->
-      </select>
-      <i class="icon"></i>
     </div>
   </body>
 </html>
