@@ -193,7 +193,7 @@ font-weight:normal;
 	<h1>Customised DropDown</h1>
 	<div class="custom-dropdown-container" style="width:90%">
 	  <div id="select" class="custom-dropdown-selected" ng-click="toggleDropdown()" style="width:100%">
-		{{ dropDownDisplay || '---- Select a category ----'}} <span ng-click="toggleDropdown()" for="select" class="arrow"></span>
+		{{ dropDownDisplay || 'Select a category'}} <span ng-click="toggleDropdown()" for="select" class="arrow"></span>
 	  </div>
 	  <!--<ul class="custom-dropdown-list" ng-show="showDropdown">
 		<li ng-repeat="item in categories" ng-click="selectItem(item.value)">{{ item.display }}</li>
@@ -218,7 +218,7 @@ font-weight:normal;
         required
         ng-options="category.display group by category.type for category in categories"
       >
-        <option value="">---- Select a category ----</option>
+        <option value="">Select a category</option>
         <!-- <option ng-repeat="category in category" value="{{category.value}}">{{category.display}}</option> -->
       </select>
     </div>
